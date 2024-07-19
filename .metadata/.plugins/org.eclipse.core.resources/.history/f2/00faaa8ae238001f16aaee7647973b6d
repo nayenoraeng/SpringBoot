@@ -1,0 +1,136 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Vector;
+
+public class Ex03ArrayList1 {
+
+	public static void main(String[] args)
+	{
+		ArrayList<String> list = new ArrayList<String>();
+//		LinkedList<String> list = new LinkedList <String>();
+//		Vector<String> list = new Vector<String>();
+		
+		//객체저장
+		/*
+		 	add(인덱스, 객체) : 데이터 저장시 인덱스를 직접 부여한다.
+		 	단, 인덱스를 건너뛰면 에러가 발생하므로 주의해야한다.
+		 	해당인덱스에 이미 객체가 저장되어 있다면 삽입(끼워넣기)이 된다
+		*/
+		list.add("세븐틴");
+		list.add("빅뱅");
+		list.add("트와이스");
+		list.add(3, "뉴진스");
+//		list.add(5, "소방차ㅋㅋ");
+		/*
+			저장된 객체수(리스트의 크기) : size()
+			참조변수.size() : 컬렉션에 저장된 객체의 갯수 즉 크기가 반환된다.
+			배열의 length와 동일
+		*/
+		list.add(list.size(), "오마이걸");
+		list.add(list.size(), "방탄소년단");
+		System.out.println("중복 저장전 객체수:" + list.size());
+		
+		//중복저장
+		/*
+			list 는 배열의 특성을 가지므로 데이터의 중복저장이 허용된다.
+		*/
+		System.out.println(list.add("트와이스") ? "중복저장됨":"중복저장안됨");
+		System.out.println("중복 저장후 객체수:" + list.size());
+		
+		//출력하기
+		/*
+		 	컬렉션 출력시 아래 3가지 방법을 사용한다
+		 	방법 1 : 일반 for문 이때는
+		 	인덱스를 통해 접근해야하므로 get 메서드를 사용한다
+		*/
+		System.out.println("\n[일반for문 사용]");
+		for (int i = 0; i < list.size(); i++)
+		{
+			System.out.print(list.get(i) + " ");
+		}
+		/*
+	 		방법 2 : 일반 for문 인덱스 없이 전체 원소를 반복해주므로
+	 		좀더 간결한 표현이 가능하다 따라서 가장 많이 사용된다
+		*/
+		System.out.println("\n[확장for문 사용]");
+		for (String obj : list)
+		{
+			System.out.print(obj + " ");
+		}
+		
+		//Iterator 사용법
+		/*
+ 			방법 3 : Iterator 사용
+ 			1. 컬렉션에 저장된 내용을 Iterator 객체에게 알려주기 위해 객체를 생성
+ 			2. hasNext()로 반환된 객체가 있는지 검사하고 next()로 해당객체를 반환
+ 			3. 모든 객체가 반환되었다면 false 를 반환하여 반복문을 탈출한다.
+		*/
+		System.out.println("\n[반복자(Iterator) 사용]");
+		Iterator<String> itr = list.iterator();
+		while(itr.hasNext()) {
+			System.out.print(itr.next() + " ");
+		}
+		System.out.println("\n=========================\n");
+		
+//		for (Iterator<String> itr = list.iterator();  itr.hasNext();) 
+//		{
+//			System.out.print(itr.next() + " ");
+//		}
+		
+		//덮어쓰기
+		/*
+			set : 수정하는것
+		*/
+		list.set(4, "오마이걸>덮어쓰기");
+		for (String obj : list)
+		{
+			System.out.print(obj + " ");
+		}
+		System.out.println("\n=========================\n");
+		
+		//삽입하기(끼워넣기)
+		/*
+		 	add(삽입할인덱스, 객체)
+		 	해당인덱스에 객체를 삽입하고, 기존 객체는 자동으로 뒤로 
+		 	밀려난다. 즉 자동으로 인덱싱된다
+		*/
+		list.add(4, "블랙핑크>삽입하기");
+		for (String obj : list)
+		{
+			System.out.print(obj + " ");
+		}
+		System.out.println("\n=========================\n");
+		
+		//포함여부확인
+		System.out.println(list.contains("빅뱅") ? "빅뱅 있음": "빅뱅 없음");
+		System.out.println(list.contains("블랙핑크") ? "블랙핑크 있음":"블랙핑크 없음");
+		
+		
+		//삭제 -- 방법1
+		Object obj = list.remove(2);
+		System.out.println("삭제된객체:" + obj);
+		
+		//방법2
+		int index = list.indexOf("빅뱅");
+		System.out.println("빅뱅의 index=" + index);
+		list.remove(index);
+		
+		//방법3
+		System.out.println(list.remove("방탄소년단") ? "삭제성공(방탄)" : "삭제 실패(방탄)");
+		System.out.println(list.remove("오마이걸") ? "삭제성공(마이걸)" : "삭제 실패(마이걸)");
+		
+		System.out.println("삭제후 출력");
+		for (Object ob : list)
+		{
+			System.out.print(ob + " ");
+		}
+		System.out.println();
+		
+		//전체삭제
+		list.removeAll(list);
+		list.clear();
+		System.out.println("전체삭제 후 객체수:" + list.size());
+	}
+
+}

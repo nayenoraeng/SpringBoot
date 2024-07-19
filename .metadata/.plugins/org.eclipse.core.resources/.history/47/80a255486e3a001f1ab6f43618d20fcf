@@ -1,0 +1,58 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class InsertQuery {
+	
+	Connection con;
+	Statement stmt;
+	
+	public InsertQuery ( ) {
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String id = "nayenoraeng";
+			String pass = "1234";
+			con = DriverManager.getConnection(url, id, pass);
+			System.out.println("오라클 DB 연결성공");
+		}
+		catch(Exception e) {
+			System.out.println("연결실패");
+		}
+	}
+	
+	private void close() {
+		try {
+			if(stmt!=null) stmt.close();
+			if(con!=null) con.close();
+			System.out.println("DB자원반납완료");
+		}
+		catch(SQLException e){
+			System.out.println("자원반납시 오류가 발생하였습니다.");
+		}
+	}
+	
+	private void execute() {
+		try {
+			stmt = con.createStatement();
+			String sql = "INSERT INTO member VALUES "
+					+ " ('test3', '3333', '테스터3', SYSDATE) ";
+			int affected = stmt.executeUpdate(sql);
+			System.out.println(affected + "행이 입력되었습니다.");
+			close();
+		}
+		catch(SQLException e) {
+			System.out.println("쿼리실행에 문제가 발생하였습니다.");
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args)
+	{
+		InsertQuery iSQL = new InsertQuery();
+		iSQL.execute();
+
+	}
+
+}

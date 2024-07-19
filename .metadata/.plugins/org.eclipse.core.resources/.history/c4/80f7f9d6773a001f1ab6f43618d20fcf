@@ -1,0 +1,11 @@
+package statement;
+
+public class SelectQuery {
+
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}

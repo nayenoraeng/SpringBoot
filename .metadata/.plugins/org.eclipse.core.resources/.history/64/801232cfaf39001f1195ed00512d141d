@@ -1,0 +1,62 @@
+class SumMulti
+{
+	int num;
+
+	public SumMulti()
+	{
+		num = 0;
+	}
+	
+	public void addNum(int n)
+	{
+		num += n;
+	}
+	
+	public int getNum() {
+		return num;
+	}
+}
+
+class MultiAdderTread extends Thread 
+{
+	SumMulti sumInst;
+	int start, end;
+	
+	public MultiAdderTread (SumMulti sum, int s, int e)
+	{
+		sumInst = sum;
+		start = s;
+		end = e;
+	}
+	
+	public void run()
+	{
+		for (int i = start; i <= end; i++)
+		{
+			sumInst.addNum(i);
+		}
+	}
+}
+public class Ex05Sync1Error {
+
+	public static void main(String[] args)
+	{
+		SumMulti s = new SumMulti();
+		MultiAdderTread mat1 = new MultiAdderTread(s, 1, 5000);
+		MultiAdderTread mat2 = new MultiAdderTread(s, 5001, 10000);
+		
+		mat1.start();
+		mat2.start();
+		
+		try {
+			mat1.join();
+			mat2.join();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("1~10000까지의 합:" +s.getNum());
+	}
+
+}

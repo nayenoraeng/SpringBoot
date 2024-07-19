@@ -1,0 +1,65 @@
+class Orange {
+	//멤버변수 : 당도를 표현
+	int sugar;
+	public Orange(int sugar)
+	{
+		this.sugar=sugar;
+	}
+	public void showInfo()
+	{
+		System.out.println("오렌지의 당도는" + sugar + " 입니다");		
+	}
+}
+
+class OrangeBox{
+	Orange item;
+	public void store(Orange item)
+	{
+		this.item = item;
+	}
+	public Orange pullOut() {
+		return item;
+	}
+	
+}
+
+class FruitBox{
+	Object item;
+	public FruitBox(Object item)
+	{
+		this.item = item;
+	}
+	
+	public void store(Object item)
+	{
+		this.item = item;
+	}
+	public Object pullOut() 
+	{
+		return item;
+	}
+}
+public class Ex01GenericBasic {
+
+	public static void main(String[] args)
+	{
+		OrangeBox oBox1 = new OrangeBox();
+		Orange orange1 = new Orange(10);
+		oBox1.store(orange1);
+		orange1 = oBox1.pullOut();
+		orange1.showInfo();
+		
+		oBox1.store("당도가 20인 오렌지");
+		Orange orange2 = oBox1.pullOut();
+		orange2.showInfo();
+		
+		FruitBox fbox1 = new FruitBox(new Orange(20));
+		Orange orange3 = (Orange)fbox1.pullOut();
+		orange3.showInfo();
+		
+		FruitBox fbox2 = new FruitBox("당도가 30인 오렌지");
+		Orange orange4 = (Orange)fbox2.pullOut();
+		orange4.showInfo();
+	}
+
+}

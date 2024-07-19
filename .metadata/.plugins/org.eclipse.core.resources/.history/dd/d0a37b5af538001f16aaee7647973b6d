@@ -1,0 +1,70 @@
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import common.Teacher;
+
+public class Ex04HashSet1 {
+
+	public static void main(String[] args)
+	{
+		/*
+		 	HashSet<E> : set
+		 	-객체가 순서없이 저장된다
+		 	-객체의 중복저장을 허용하지 않는다.
+		 	-단 기본클래스(String, Integer등) 아닌 개발자가 새롭게 정의한 클래스라면
+		 	hashCode(), equals() 메서드를
+		 	적절히 오버라이딩 하여 중복에 대한 기준을 설정
+		*/
+		//Object 기반
+		HashSet<Object> set = new HashSet<Object>();
+		
+		//다양한 기본클래스와 우리가 정의한 Teacher클래스의 객체 생성
+		String varString1 = "JAVA";
+		String varString2 = new String("개발자");
+		Date varDate = new Date();
+		int varInt = 100;
+		Teacher varTeacher = new Teacher("김봉두", 55, "체육");
+		
+		//객체 저장 add()메서드를 통해 저장, 성공하면 true 반환
+		System.out.println("add결과:" + set.add(varString1));
+		set.add(varString2);
+		set.add(varDate);
+		set.add(varInt);
+		set.add(varTeacher);
+		
+		System.out.println("[중복 저장전 객체수]:" + set.size());
+		/*
+		 	기본클래스의 객체 중복 저장
+		 	: 기본클래스인 경우 별도의 오버라이딩 없이도 중복이 제거된다
+		 	따라서 아래의 add()메서드는 false를 반환한다
+		*/
+		System.out.println(set.add(varString2) ? "저장성공" : "저장실패");
+		System.out.println("[중복 저장후 객체수]:" + set.size());
+
+		/*
+		*/
+		Iterator itr = set.iterator();
+		while(itr.hasNext()) {
+			Object object = itr.next();
+			/*
+			 	에 저장시 모두 Object형으로 자동형변환되어 저장되므로
+			 	우리가 직접 정의한 클래스에 대해서만 instanceof를 통해
+			 	타입을 확인한 후 다운캐스팅하여 출력한다 만약 다운캐스팅하지 않으면
+			 	자식객체로의 접근이 불가능하므로 getName()을 호출할 수 없다.
+			*/
+			if(object instanceof Teacher) {
+				System.out.println("Teacher객체=>" + ((Teacher)object).getName());
+			} else {
+				System.out.println("저장된객체:" + object);
+			}
+		}
+		System.out.println(set.contains(varString1) ? "varString1 있음" : "varString1 없음");
+		System.out.println(set.remove(varString2) ? "varString2 삭제성공" : "varString2 삭제실패");
+	
+		set.clear();
+		System.out.println("전체삭제:" + set.removeAll(set));
+		System.out.println("[전체 삭제후 객체 수]:" + set.size());
+	}
+
+}

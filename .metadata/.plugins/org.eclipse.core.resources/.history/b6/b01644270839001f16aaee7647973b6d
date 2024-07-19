@@ -1,0 +1,24 @@
+@FunctionalInterface
+interface ISchool4
+{
+	void studyLambda(String str);
+	//void studyLambda2(String str);
+}
+public class Ex04FunctionalInterface 
+{
+	static void execute(ISchool4 school4, String s) {
+		school4.studyLambda(s);
+	}
+	
+	public static void main(String[] args)
+	{
+		ISchool4 sch = (str) ->
+			System.out.println("ISchool4를 구현받아 정의한 람다입니다." + str);
+			
+			//sch.studyLambda("\n람다를 매개변후로 전달합니다");
+			
+			execute(sch, "\n람다를 매개변후로 전달합니다");
+
+	}
+
+}

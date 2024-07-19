@@ -1,0 +1,87 @@
+class Orange 
+{
+	//멤버변수 : 당도를 표현
+	int sugar;
+	//생성자
+	public Orange(int sugar)
+	{
+		this.sugar=sugar;
+	}
+	//멤버메서드
+	public void showInfo()
+	{
+		System.out.println("오렌지의 당도는" + sugar + " 입니다");		
+	}
+}
+
+//오렌지 전용박스 : Orange 객체만 저장할 수 있는 클래스
+class OrangeBox
+{
+	//멤버변수 : 오렌지 객체
+	Orange item;
+	//저장하다(setter메서드)
+	public void store(Orange item)
+	{
+		this.item = item;
+	}
+	//꺼내다(getter메서드)
+	public Orange pullOut() {
+		return item;
+	}
+	
+}
+
+//과일 상자 : Object 기반으로 모든 객체(과일)을 저장할 수 있는 클래스
+class FruitBox
+{
+	//멤버변수 : 모든객체를 참조할 수 있다.
+	Object item;
+	//생성자
+	public FruitBox(Object item)
+	{
+		this.item = item;
+	}
+	//setter메서드
+	public void store(Object item)
+	{
+		this.item = item;
+	}
+	//getter메서드
+	public Object pullOut() 
+	{
+		return item;
+	}
+}
+public class Ex01GenericBasic {
+
+	public static void main(String[] args)
+	{	/*
+			OrangeBox를 생성한 후 Orange객체를 저장한다
+			그리고 Orange를 꺼낸후 정보를 출력한다.
+	 	*/
+		OrangeBox oBox1 = new OrangeBox();
+		Orange orange1 = new Orange(10);
+		oBox1.store(orange1);
+		orange1 = oBox1.pullOut();
+		orange1.showInfo();
+		
+		/*
+		 	상자1은 오렌지 전용박스이므로 다른과일(즉 객체)를 저장할 수 없다.
+		 	컴파일 에러가 발생하므로 실행자체가 불가능하다
+		 	=> 자료형에는 안전하지만, 구현에는 불편함이 있다.
+		 	다른객체를 저장하기 위해 또 다른 Box클래스를 생성해야 한다.
+		*/
+//		oBox1.store("당도가 20인 오렌지");
+		Orange orange2 = oBox1.pullOut();
+		orange2.showInfo();
+		
+		FruitBox fbox1 = new FruitBox(new Orange(20));
+		Orange orange3 = (Orange)fbox1.pullOut();
+		orange3.showInfo();
+		
+		FruitBox fbox2 = new FruitBox("당도가 30인 오렌지");
+		Orange orange4 = (Orange)fbox2.pullOut();
+		orange4.showInfo();
+	}
+
+}

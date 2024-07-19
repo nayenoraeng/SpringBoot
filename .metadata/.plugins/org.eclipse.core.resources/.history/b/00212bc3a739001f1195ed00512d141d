@@ -1,0 +1,117 @@
+/*
+	쓰레드로 구현하지 않은 일반적인 클래스
+*/
+class NormalClass
+{
+	String title;
+
+	public NormalClass(String title)
+	{
+		this.title = title;
+	}
+	
+	//단순 10번 반복
+	void classMethod() {
+		for (int i = 1; i <= 10; i++)
+		{
+			System.out.printf("%s]i=%d%n", title, i);
+		}
+	}
+	
+}
+
+/*
+	독립쓰레드
+*/
+class NormalThread extends Thread
+{
+	//기본생성자를 통해 객체를 생성하면 쓰레드명이 JVM 자동으로 부여된다.
+	public NormalThread( ) {}
+	
+	public NormalThread(String title) 
+	{
+		super(title); //Thread에게 상속 받음
+	}
+	/*
+		쓰레드 동작 중 비정상적으로 종료 될때 InterruptedException이 발생할 수
+		있다 여기서는 예외를 처리하지 않고 무시한다.
+	*/
+	void threadMethod() throws InterruptedException{
+		/*
+			10번 반복 중 2초씩 block상태로 들어가므로 총 20초간 반복된다.
+		*/
+		for (int i = 1; i <= 10; i++)
+		{
+			System.out.printf("%s]i=%d%n", getName(), i);
+			sleep(2000);
+		}
+	}
+	
+	public void run() {
+				try {
+			threadMethod();
+		} catch(InterruptedException e){
+		}
+	}
+	
+}
+/*
+	종속스레드
+	: 모든 독립스레드가 종료되면 자동으로 종료되는 스레드를 말한다.
+	메인메서드도 하나의 독립쓰레드이므로, 다른 독립 스레드가 남아있다면
+	종료가 될때까지는 프로그램이 종료된 것은 아니다.
+	주로 프로그램의 보조역할로 배경음악재생, 로그자동저장 등의 업무를
+	처리한다. 프로그램이 종료될때 자동으로 종료되므로 주로 무한루프로 구성한다.
+*/
+class DaemonThread extends Thread
+{
+	@Override
+	public void run() {
+		while(true) {
+			System.out.printf("[쓰레드명:%s]Jazz가 흘러요~%n", getName());
+			try {
+				sleep(2000);
+				System.out.println("3초마다 자동저장!!");
+			} catch(InterruptedException e){
+				System.out.println("자동저장시 오류발생 ㅜㅠ");
+			}
+		}
+	}
+}
+public class Ex03DaemonThread 
+{
+	public static void main(String[] args)
+	{
+		NormalClass nt1 = new NormalClass("첫번째클래스");
+		nt1.classMethod();
+		new NormalClass("두번째 클래스").classMethod();
+		
+		//첫번째 독립스레드 생성 및 시작( 우선순위가 없으므로 5로 지정된다)
+		//스레드명 부여 1: 생성자를 이용한다.
+		NormalThread yt1 = new NormalThread("1st 쓰레드");
+		//스레드명 부여 2: setName() 를 이용한다.
+		//yt1.setName("First 쓰레드");
+		yt1.start();
+		
+		//2번째 독립스레드 생성 및 시작
+		//스레드명 부여하지 않았으므로 JVM이 자동으로 이름을 부여한다.
+		NormalThread yt2 = new NormalThread();
+		//우선순위를 10으로 지정한다.
+		yt2.setPriority(Thread.MAX_PRIORITY);
+		yt2.start();
+		
+		DaemonThread dt = new DaemonThread();
+		dt.setName("데몬쓰레드");
+		dt.setDaemon(true);
+		dt.start();
+		
+		System.out.println("현재 활성화 된 상태의 쓰레드 수" +
+				Thread.activeCount());	
+		System.out.println("현재 실행중인 쓰레드명" +
+				Thread.currentThread().getName());
+		System.out.println("메인함수의 우선순위:" +
+				Thread.currentThread().getPriority());
+		System.out.println("메인함수(main Thread) 종료");
+	}
+
+}

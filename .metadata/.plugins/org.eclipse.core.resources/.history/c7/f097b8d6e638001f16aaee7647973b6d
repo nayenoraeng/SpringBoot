@@ -1,0 +1,65 @@
+import common.Student;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class Ex03ArrayList2 {
+
+	public static void main(String[] args)
+	{
+		LinkedList<Student> list2 = new LinkedList<Student>();
+		
+		Student st1 = new Student("김수현", 10, "2018");
+		Student st2 = new Student("박서준", 20, "2017");
+		Student st3 = new Student("차은우", 30, "2016");
+		Student st4 = new Student("최우식", 40, "2015");
+		
+		list2.add(st1);
+		list2.add(st2);
+		list2.add(st3);
+		list2.add(st4);
+		list2.add(st2);
+		
+		System.out.println("[출력1-일반for문]");
+		for (int i = 0; i < list2.size(); i++)
+		{
+			System.out.println(list2.get(i));
+		}
+		System.out.println();
+		
+		boolean removeOk = list2.remove(st2);
+		System.out.println("인스턴스를 통한 삭제:" + removeOk);
+		System.out.println();
+		
+		System.out.println("[출력2-이터레이터");
+		Iterator<Student> it2 = list2.iterator();
+		while(it2.hasNext()) {
+			System.out.println(it2.next());
+//			System.out.println(it2.next().getName());
+		}
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("삭제할 이름을 입력하세요");
+		String removeName = scanner.nextLine();
+		for (Student st : list2)
+		{
+			if (removeName.equals(st.getName()))
+			{
+				list2.remove(st);
+				break;
+			}
+		}
+		System.out.println("현재객체수:" + list2.size());
+		System.out.println();
+		
+		System.out.println("삭제된 객체의 이름:" + list2.remove(2).getName());
+		
+		System.out.println("[출력3-확장for문]");
+		for (Student st : list2)
+		{
+			System.out.println(st);
+		}
+
+	}
+
+}

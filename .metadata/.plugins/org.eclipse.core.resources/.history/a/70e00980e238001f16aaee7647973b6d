@@ -1,0 +1,18 @@
+import java.util.LinkedList;
+
+public class Ex03ArrayList2 {
+
+	public static void main(String[] args)
+	{
+		LinkedList<Student> list2 = new LinkedList<Student>();
+		
+		Student st1 = new Student("김수현", 10, "2018");
+		Student st2 = new Student("박서준", 20, "2017");
+		Student st1 = new Student("차은우", 30, "2016");
+		Student st1 = new Student("최우식", 40, "2015");
+		
+		list2
+
+	}
+
+}
